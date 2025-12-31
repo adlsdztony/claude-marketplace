@@ -1,6 +1,6 @@
 # Web Clone Plugin
 
-Autonomous web application cloning with browser automation - a simplified 2-command workflow for Claude Code.
+Autonomous web application cloning with browser automation - a simplified 3-command workflow for Claude Code.
 
 ## Overview
 
@@ -8,12 +8,13 @@ Web Clone is a streamlined plugin that transforms Claude Code into an autonomous
 
 ## Key Features
 
-- **2-Command Workflow** - Simple `/explore` and `/implement` commands
+- **3-Command Workflow** - `/explore`, `/implement`, and `/optimize`
 - **Web Exploration** - Crawl websites to automatically generate specifications
 - **Smart Routing** - Automatically detects project state and routes to appropriate agent
 - **Browser Verification** - All features tested through actual UI interaction
 - **Auto-Continue** - Continuously implements features until project complete
-- **Multi-Agent Coordination** - Specialized agents for exploration and implementation
+- **Visual Optimization** - Compare target vs implemented pages and refine until matched
+- **Multi-Agent Coordination** - Specialized agents for exploration, implementation, and optimization
 
 ## Quick Start
 
@@ -25,6 +26,9 @@ Web Clone is a streamlined plugin that transforms Claude Code into an autonomous
 
 # Step 2: Implement all features automatically
 /implement
+
+# Step 3: Optimize to match the target website
+/optimize target_url="https://claude.ai" local_url="http://localhost:3000" routes="/"
 ```
 
 That's it! The plugin handles everything else.
@@ -34,6 +38,7 @@ That's it! The plugin handles everything else.
 - Subagents add discovered features to `feature_list.json` in real-time
 - The `/explore` command organizes and prioritizes the test cases at the end
 - `/implement` detects if `init.sh` exists to determine if project needs initialization
+- `/optimize` compares target and local UI, applies refinements, and records diffs
 
 ## Commands
 
@@ -91,9 +96,35 @@ Implement features from the specification with auto-continue.
 - Git commits for each feature
 - Production-ready application
 
+### `/optimize`
+
+Optimize the implemented site to match the target website.
+
+**What it does:**
+- Seeds and updates `.spec/optimize_list.json`
+- Delegates to optimization-subagent per route/flow
+- Captures target/local screenshots and snapshots
+- Applies visual and behavioral refinements until matched
+
+**Arguments:**
+- `target_url` (required): Base URL of the target site
+- `local_url` (optional): Base URL of the implemented site, default `http://localhost:3000`
+- `routes` (optional): Comma-separated routes to seed optimization
+- `sessions` (optional): Max optimization passes, default 0 (unlimited)
+
+**Examples:**
+```bash
+/optimize target_url="https://example.com" local_url="http://localhost:3000" routes="/,/pricing"
+```
+
+**Output:**
+- `.spec/optimize_list.json` - Optimization goals and status
+- `.spec/optimize/` - Screenshots, snapshots, diff reports
+- `.spec/optimize/reports/final-summary.md` - Final verification summary
+
 ## Agents
 
-The plugin includes 4 autonomous agents:
+The plugin includes 6 autonomous agents:
 
 ### Exploration Subagent
 
@@ -158,6 +189,31 @@ The plugin includes 4 autonomous agents:
 - End-to-end testing
 - Production-ready
 
+### Optimization Initializer Agent
+
+**Triggered by:** `/optimize` command via Task tool
+
+**Role:** Build or refresh the optimization list from app spec, feature list, and explore list
+
+**Tasks:**
+- Read `.spec/app_spec.txt`, `.spec/feature_list.json`, `.spec/explore_list.json`
+- Derive key routes and flows
+- Create or update `.spec/optimize_list.json`
+- Preserve existing statuses and artifacts on re-runs
+
+### Optimization Subagent
+
+**Triggered by:** `/optimize` command via Task tool
+
+**Role:** Compare target and local pages, eliminate visual and behavioral differences
+
+**Tasks:**
+- Open target and local pages with the same viewport
+- Capture baseline + action screenshots
+- Identify differences (layout, typography, color, interactions)
+- Implement fixes and re-verify
+- Update `.spec/optimize_list.json` and log artifacts
+
 ## Skills
 
 ### Progress Tracker
@@ -217,6 +273,15 @@ The plugin includes 4 autonomous agents:
 # ...
 # ✓ Feature 50/50 implemented
 # 🎉 Project complete!
+
+# 3. Optimize to match the target site
+/optimize target_url="https://todoapp.example.com" local_url="http://localhost:3000" routes="/,/login,/dashboard"
+
+# Output:
+# ✓ Target vs local compared with screenshots
+# ✓ Differences logged in .spec/optimize_list.json
+# ✓ UI refined to match target
+# 🎉 Visual parity achieved!
 ```
 
 ## Project Structure
@@ -249,6 +314,19 @@ After implementation:
 ├── init.sh                   # Environment setup
 ├── claude-progress.txt       # Session notes
 └── app_spec.txt              # Original specification
+```
+
+After optimization:
+```
+.spec/
+├── optimize_list.json         # Optimization goals and status
+└── optimize/                  # Optimization artifacts
+    ├── screenshots/
+    │   ├── target/
+    │   └── local/
+    ├── snapshots/
+    ├── reports/
+    └── logs/
 ```
 
 ## Feature List Format
@@ -309,6 +387,7 @@ The coding-agent maintains:
 3. **Trust the process** - One feature per session, quality over speed
 4. **Check progress** - Use the progress script to see status
 5. **Review commits** - Each feature gets a descriptive commit
+6. **Optimize last** - Run `/optimize` only after all features pass
 
 ## Troubleshooting
 
@@ -378,12 +457,24 @@ The coding-agent maintains:
    - Displays final summary
    - Exits
 
+### How `/optimize` Works
+
+1. Verifies exploration + implementation are complete
+2. Invokes optimization-initializer-agent to build `.spec/optimize_list.json`
+3. For each pending route:
+   - Spawns optimization-subagent via Task tool
+   - Subagent captures target/local screenshots and actions
+   - Subagent applies fixes and updates optimize_list.json
+4. Loops until all items are marked "done"
+5. Writes final verification summary under `.spec/optimize/reports/`
+
 ## Technical Details
 
 ### Multi-Agent System
 
 - **Exploration:** Main command delegates to subagents via Task tool
 - **Implementation:** Auto-continue loop with 3-second delay
+- **Optimization:** Initializer builds optimize list, subagents compare and refine pages route-by-route
 - **Context management:** Clean session starts
 
 ### Artifacts
@@ -437,6 +528,7 @@ Implements 10 features (or fewer if project completes sooner).
 ```bash
 /explore url="https://simple.example.com" depth=1
 /implement
+/optimize target_url="https://simple.example.com" local_url="http://localhost:3000" routes="/"
 ```
 
 ### Clone a Complex Application
@@ -444,6 +536,7 @@ Implements 10 features (or fewer if project completes sooner).
 ```bash
 /explore url="https://complex.example.com" depth=3
 /implement
+/optimize target_url="https://complex.example.com" local_url="http://localhost:3000" routes="/,/login,/dashboard"
 ```
 
 ### Clone Authenticated Application
@@ -451,6 +544,7 @@ Implements 10 features (or fewer if project completes sooner).
 ```bash
 /explore url="https://app.example.com" depth=2 auth=".spec/info/auth/storage_state.json"
 /implement
+/optimize target_url="https://app.example.com" local_url="http://localhost:3000" routes="/,/login"
 ```
 
 ## Contributing

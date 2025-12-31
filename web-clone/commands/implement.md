@@ -148,3 +148,10 @@ After `/implement` completes:
 - Git commits for each feature
 
 **IMPORTANT:** ONLY exit when ALL features have `"passes": true`. Otherwise, continue invoking coding-agent until complete.
+
+## Next Steps
+
+After all features pass, run:
+```
+/optimize
+```
