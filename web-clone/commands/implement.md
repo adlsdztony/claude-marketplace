@@ -19,7 +19,9 @@ When invoked, this command will:
 3. **Continue implementation** - Repeatly invoke coding-agent until all features are complete
 
 ### SUBAGENT POLICY
-Do NOT try to implement everything in a single context window. Use the Task tool to spawn subagents (initializer-agent or coding-agent) as needed based on project state. DO NOT use background agents, use foreground agent. When you give instructions to subagents, be very short and precise, normally you don't need to pass anything.
+- Do NOT try to implement everything in a single context window. Use the Task tool to spawn subagents (initializer-agent or coding-agent) as needed based on project state. 
+- DO NOT use background agents, use SINGLE **foreground** agent. 
+- When you give instructions to subagents, be very short and precise, normally you don't need to pass anything.
 
 ## Workflow
 

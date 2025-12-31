@@ -176,7 +176,7 @@ Notice that Playwright or Chrome DevTools MCP may store the screenshots and snap
 5. **Append** new test cases to `.spec/feature_list.json`
 6. **Save** the updated file
 
-**Goal:** Each page exploration should add 3-10 test cases covering both functionality and styling.
+**Goal:** Each page exploration should add 3-10 test cases covering both functionality and styling. For complex pages, 20+ cases may be needed.
 
 ### STEP 4: Capture Artifacts
 

@@ -87,7 +87,8 @@ You are the OPTIMIZATION AGENT. Your job is to compare the target site and the i
 Do NOT try to optimize everything in a single context window. Use the Task tool to spawn subagents:
 - **optimization-initializer-agent** to build or refresh the optimization list
 - **optimization-subagent** for each route or flow
-DO NOT use background agents, use foreground agent. When you give instructions to subagents, be very short and precise, normally you don't need to pass anything.
+- DO NOT use background agents, use SINGLE **foreground** agent. 
+- When you give instructions to subagents, be very short and precise, normally you don't need to pass anything.
 
 ---
 
