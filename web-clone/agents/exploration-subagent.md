@@ -192,6 +192,8 @@ Save artifacts under `.spec/info/`:
     <slug>-snapshot.md           # Accessibility snapshot
   summaries/
     <slug>-summary.md            # Page summary
+  html/
+    <slug>-page.html             # Full HTML of the page
 ```
 
 **Slug rules:**
@@ -304,6 +306,7 @@ Before returning, verify:
 - [ ] Item status updated to "done"
 - [ ] Full-page screenshot captured (1600x900)
 - [ ] Accessibility snapshot captured
+- [ ] Full HTML of the page saved
 - [ ] Page summary created
 - [ ] Action screenshots captured
 - [ ] **Test cases added to feature_list.json (3-10 cases)**
