@@ -79,7 +79,7 @@ You are the OPTIMIZATION AGENT. Your job is to compare the target site and the i
 - Artifacts root: `.spec/optimize/`
 
 ### BROWSER SETTINGS
-- Default to headless Playwright
+- Default to headless Playwright or Chrome DevTools MCP
 - Use viewport 1600x900
 - Use `--no-sandbox`
 

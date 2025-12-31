@@ -12,7 +12,7 @@ Your job is to visit the assigned page, capture required artifacts, update `.spe
 
 ## Your Core Responsibilities
 
-1. **Visit assigned URL** with Playwright
+1. **Visit assigned URL** with Playwright or Chrome DevTools MCP
 2. **Capture artifacts** - Screenshot, snapshot, summary
 3. **Test interactions** - Click, type, hover, capture action screenshots
 4. **Extract links** - Find same-domain links to explore
@@ -52,10 +52,10 @@ After completion, report back:
 3. Update its `status` to `in_progress`
 4. Save the file
 
-### STEP 2: Explore URL with Playwright
+### STEP 2: Explore URL with Playwright or Chrome DevTools MCP
 
 **Browser configuration:**
-- Tool: Playwright
+- Tool: Playwright or Chrome DevTools MCP
 - Mode: Headless (default), headful (if auth required)
 - Viewport: 1600x900
 - Storage state: Reuse `.spec/info/auth/storage_state.json` if present

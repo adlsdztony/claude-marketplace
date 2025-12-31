@@ -133,7 +133,7 @@ The plugin includes 6 autonomous agents:
 **Role:** Explore individual pages
 
 **Tasks:**
-- Visit assigned URL with Playwright
+- Visit assigned URL with Playwright or Chrome DevTools MCP
 - Capture artifacts (screenshots, snapshots, summaries)
 - Extract links for further exploration
 - **Dynamically add discovered features to `feature_list.json`**
@@ -235,12 +235,9 @@ The plugin includes 6 autonomous agents:
 **Triggered by:** Browser testing operations
 
 **Provides:**
-- Playwright automation patterns
+- Playwright or Chrome DevTools MCP automation patterns
 - Testing strategies
 - Screenshot guidelines
-
-**Resources:**
-- `references/playwright-patterns.md` - Playwright guide
 
 ## Workflow
 
@@ -405,14 +402,14 @@ The coding-agent maintains:
 
 ### Browser Errors
 
-- Verify Playwright is installed
+- Verify Playwright or Chrome DevTools MCP is installed
 - Check server is running on correct port
 - Ensure `--no-sandbox` flag is used
 
 ## Configuration
 
 **Browser:**
-- Tool: Playwright
+- Tool: Playwright or Chrome DevTools MCP
 - Viewport: 1600x900
 - Mode: Headless (headful for auth)
 - Args: `--no-sandbox`

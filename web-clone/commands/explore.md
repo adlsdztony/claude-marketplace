@@ -58,7 +58,7 @@ You are the EXPLORATION AGENT. Your job is to explore the target website, captur
 - Artifacts root: `.spec/info/`
 
 ### BROWSER SETTINGS
-- Default to headless Playwright
+- Default to headless Playwright or Chrome DevTools MCP
 - Use viewport 1600x900
 
 ### SUBAGENT POLICY

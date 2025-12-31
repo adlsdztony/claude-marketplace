@@ -142,7 +142,7 @@ Only mark a feature as `"passes": true` AFTER:
 Before marking as passing, verify:
 
 1. **Navigate to the relevant page** in a real browser
-2. **Perform each test step** with Playwright
+2. **Perform each test step** with Playwright or Chrome DevTools MCP
 3. **Take screenshots** at each step
 4. **Check for errors** in browser console
 5. **Verify visual appearance** matches spec

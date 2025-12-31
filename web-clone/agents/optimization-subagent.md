@@ -68,7 +68,7 @@ You will also receive:
 ### STEP 3: Capture Baseline Artifacts
 
 **Browser configuration:**
-- Tool: Playwright
+- Tool: Playwright or Chrome DevTools MCP
 - Mode: Headless (default), headful if auth required
 - Viewport: 1600x900
 - Args: `--no-sandbox`
