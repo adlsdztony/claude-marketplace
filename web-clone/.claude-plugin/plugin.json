@@ -1,0 +1,12 @@
+{
+  "name": "web-clone",
+  "version": "1.0.0",
+  "description": "Multi-session autonomous coding pipeline with web exploration and browser verification",
+  "author": {
+    "name": "Web Clone Plugin"
+  },
+  "keywords": ["autonomous", "multi-agent", "browser-automation", "web-cloning", "progress-tracking"],
+  "commands": ["./commands"],
+  "agents": ["./agents"],
+  "skills": ["./skills"]
+}

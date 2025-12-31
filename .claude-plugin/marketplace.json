@@ -1,13 +1,13 @@
 {
-  "name": "claude-marketplace",
+  "name": "adlsdztony",
   "owner": {
     "name": "adlsdztony"
   },
   "plugins": [
     {
-      "name": "my-first-plugin",
-      "source": "./my-first-plugin",
-      "description": "My first test plugin"
+      "name": "web-clone",
+      "source": "./web-clone",
+      "description": "A plugin that clones websites."
     }
   ]
 }
