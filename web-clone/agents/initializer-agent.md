@@ -84,9 +84,10 @@ Create an environment setup script at `.spec/init.sh` that:
 
 1. Installs required dependencies (npm install, pip install, etc.)
 2. Starts necessary servers or services
-3. Prints helpful information about how to access the app
-4. Supports `./.spec/init.sh` command to start/restart (idempotent - if already running, just print URL)
-5. Supports `./.spec/init.sh stop` command to stop services
+3. Services should log output to a file under `.spec/logs/`
+4. Prints helpful information about how to access the app
+5. Supports `./.spec/init.sh` command to start/restart (idempotent - if already running, just print URL)
+6. Supports `./.spec/init.sh stop` command to stop services
 
 Base the script on the technology stack in the app spec.
 

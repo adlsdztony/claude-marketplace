@@ -1,9 +1,10 @@
 ---
 name: implement
-description: Implement features from the project specification. Automatically detects project state and routes to initializer (new project) or coding agent (existing project), then continues implementation until all features are complete.
+description: Implement features from the project specification. This command should NOT be triggered directly by agents.
 ---
 
 # Implement Project
+You are the IMPLEMENTATION COMMAND (/implement).
 
 This command implements features from the project specification. It automatically automatically detects project state and routes to initializer (new project) or coding agent (existing project), then continues implementation until **all features are complete**.
 
@@ -16,6 +17,9 @@ When invoked, this command will:
    - **New project**: Invoke initializer-agent to set up project structure
    - **Existing project**: Invoke coding-agent to continue implementation
 3. **Continue implementation** - Repeatly invoke coding-agent until all features are complete
+
+### SUBAGENT POLICY
+Do NOT try to implement everything in a single context window. Use the Task tool to spawn subagents (initializer-agent or coding-agent) as needed based on project state.
 
 ## Workflow
 

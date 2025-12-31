@@ -75,12 +75,6 @@ After completion, report back:
 6. Take screenshots after each significant action
 7. Create summary documenting components and functionality
 
-**Authentication handling:**
-- If login is required, switch to headful browser
-- Ask user to complete login manually
-- Save storage state to `.spec/info/auth/storage_state.json`
-- Continue exploration
-
 ### STEP 3: Generate Test Cases for This Page
 
 **IMPORTANT:** After capturing artifacts, analyze the page to identify testable features and add them to `.spec/feature_list.json`.
@@ -339,9 +333,6 @@ Test cases added: [N]
 New explore list items: [N]
 - [URL] - [page name] (depth: N+1)
 - [URL] - [page name] (depth: N+1)
-
-Auth required: [yes/no]
-Issues: [any errors or blocked content]
 ```
 
 ## Error Handling
@@ -355,12 +346,6 @@ Issues: [any errors or blocked content]
 - Set status to "blocked"
 - Note error in log
 - Retry once if it's a transient error
-
-**If authentication fails:**
-- Set status to "blocked"
-- Note auth requirement
-- Continue with other items
-
 ---
 
 Begin by locating and updating the assigned item in explore_list.json (STEP 1).

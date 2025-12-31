@@ -65,7 +65,6 @@ Analyze the collected information to identify:
 - **Database schema** - Data models and relationships
 - **API endpoints** - Backend services and routes
 - **UI/UX patterns** - Design system and components
-- **Authentication** - Login flows and permissions
 
 ### STEP 4: Generate App Specification
 
@@ -111,31 +110,6 @@ cat .spec/app_spec_path.txt 2>/dev/null || echo ".spec/app_spec.txt"
   </prerequisites>
 
   <feature_count>[derived count from exploration, typically 30-50]</feature_count>
-
-  <security_and_access_control>
-    <user_roles>
-      <role name="[role_name]">
-        <permissions>
-          - [Can do X]
-          - [Can see Y]
-          - [Cannot access Z]
-        </permissions>
-        <protected_routes>
-          - /admin/* (admin only)
-          - /settings (authenticated users)
-        </protected_routes>
-      </role>
-    </user_roles>
-    <authentication>
-      <method>[email/password | social | SSO]</method>
-      <session_timeout>[duration or "none"]</session_timeout>
-      <password_requirements>[if applicable]</password_requirements>
-    </authentication>
-    <sensitive_operations>
-      - [Delete account requires password confirmation]
-      - [Financial actions require 2FA]
-    </sensitive_operations>
-  </security_and_access_control>
 
   <core_features>
     <[category_name]>

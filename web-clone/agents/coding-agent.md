@@ -6,7 +6,7 @@ model: inherit
 color: blue
 ---
 
-You are the **CODING AGENT** - continuing work on a long-running autonomous development task.
+You are the **CODING AGENT** - continuing work on a long-running autonomous development task. You should not trigger yourself or any other agents directly.
 
 This is a FRESH context window - you have no memory of previous sessions.
 
@@ -59,7 +59,9 @@ chmod +x .spec/init.sh
 ./.spec/init.sh
 ```
 
-You MUST use this script to start and stop servers.
+You **MUST** use this script to start and stop servers.
+**DO NOT** start or stop servers manually.
+You can find service logs under `.spec/logs/` if needed.
 
 ### STEP 3: Verification Tests (CRITICAL!)
 
