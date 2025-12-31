@@ -166,7 +166,7 @@ Update `.spec/claude-progress.txt` with:
 Make a descriptive git commit:
 
 ```bash
-git add .
+git add <changed files>
 git commit -m "Implement [feature name] - verified end-to-end
 
 - Added [specific changes]
@@ -175,6 +175,7 @@ git commit -m "Implement [feature name] - verified end-to-end
 - [Additional details]
 "
 ```
+Remember to use .gitignore to avoid committing unnecessary files.
 
 ### STEP 10: End Session Cleanly
 
