@@ -58,7 +58,7 @@ After completion, report back:
 - Tool: Playwright or Chrome DevTools MCP
 - Mode: Headless (default), headful (if auth required)
 - Viewport: 1600x900
-- Storage state: Reuse `.spec/info/auth/storage_state.json` if present
+Notice that Playwright or Chrome DevTools MCP may store the screenshots and snapshots in some temporary location. You need to move them to the correct `.spec/info/` paths after finish all steps.
 
 **Steps:**
 1. Navigate to the URL

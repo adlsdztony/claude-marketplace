@@ -5,5 +5,13 @@
   "author": {
     "name": "Web Clone Plugin"
   },
-  "keywords": ["autonomous", "multi-agent", "browser-automation", "web-cloning", "progress-tracking"]
+  "keywords": ["autonomous", "multi-agent", "browser-automation", "web-cloning", "progress-tracking"],
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    }
+  }
 }
