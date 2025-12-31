@@ -314,25 +314,26 @@ Before returning, verify:
 
 ## Return Summary
 
+**IMPORTANT:** Your report back MUST be simple and structured. 
 Report back to the main agent with:
 
 ```
 ✓ Explored: [page name]
 
-Artifacts captured:
-- Screenshot: [path]
-- Snapshot: [path]
-- Summary: [path]
-- Action screenshots: [N] additional
-
 Test cases added: [N]
-- Feature #N: [description]
-- Feature #N+1: [description]
-...
 
 New explore list items: [N]
-- [URL] - [page name] (depth: N+1)
-- [URL] - [page name] (depth: N+1)
+
+{
+  "id": 12,
+  "url": "https://example.com/search?q=hotels",
+  "page": "search-results",
+  "depth": 1,
+  "status": "pending",
+  "discovered_from": "https://example.com/",
+  "artifacts": []
+}
+
 ```
 
 ## Error Handling
