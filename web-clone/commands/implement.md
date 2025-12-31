@@ -1,15 +1,11 @@
 ---
 name: implement
 description: Implement features from the project specification. Automatically detects project state and routes to initializer (new project) or coding agent (existing project), then continues implementation until all features are complete.
-arguments:
-  sessions:
-    description: "Maximum number of coding sessions to run (0 = unlimited until all features complete)"
-    default: 0
 ---
 
 # Implement Project
 
-This command implements features from the project specification. It automatically detects the project state and routes to the appropriate agent.
+This command implements features from the project specification. It automatically automatically detects project state and routes to initializer (new project) or coding agent (existing project), then continues implementation until **all features are complete**.
 
 ## What This Command Does
 
@@ -19,33 +15,7 @@ When invoked, this command will:
 2. **Route to appropriate agent**:
    - **New project**: Invoke initializer-agent to set up project structure
    - **Existing project**: Invoke coding-agent to continue implementation
-3. **Continue implementation** - Loop through coding sessions until all features complete
-4. **Track progress** - Update feature_list.json after each feature
-5. **Auto-continue** - Automatically start next session after completion (if sessions > 1 or unlimited)
-
-## Arguments
-
-### `sessions` (optional, default: 0)
-- **Description**: Maximum number of coding sessions to run
-- **0** = Unlimited (continue until all features are complete)
-- **N** = Run exactly N sessions
-
-## Usage Examples
-
-### Implement all features (unlimited sessions):
-```
-/implement
-```
-
-### Implement for 5 sessions only:
-```
-/implement sessions=5
-```
-
-### Resume implementation:
-```
-/implement
-```
+3. **Continue implementation** - Repeatly invoke coding-agent until all features are complete
 
 ## Workflow
 
@@ -84,10 +54,9 @@ Invoke **coding-agent** to:
 After each coding-agent session:
 
 1. **Check remaining features** - Count features with "passes": false
-2. **If features remain** AND (sessions == 0 OR session_count < sessions):
-   - Wait 3 seconds
-   - Start next session (return to Step 2)
-3. **If all features complete** OR session_count == sessions:
+2. **If features remain**:
+   - Invoke next coding agent (return to Step 2)
+3. **If all features complete**:
    - Display final progress summary
    - Exit
 
@@ -133,28 +102,6 @@ After each coding-agent session:
 - End-to-end testing through UI
 - Professional, production-ready
 
-## Browser Verification
-
-All features must be verified through actual browser interaction:
-
-1. **Navigate** to relevant page
-2. **Interact** like a human user (click, type, scroll)
-3. **Capture** screenshots at each step
-4. **Verify** functionality AND visual appearance
-5. **Check** console for errors (zero expected)
-
-**DO:**
-- Test through the UI with clicks and keyboard input
-- Take screenshots to verify visual appearance
-- Check for console errors in browser
-- Verify complete user workflows end-to-end
-
-**DON'T:**
-- Only test with curl commands (insufficient)
-- Use JavaScript evaluation to bypass UI (no shortcuts)
-- Skip visual verification
-- Mark tests passing without thorough verification
-
 ## Progress Tracking
 
 Progress is tracked in `.spec/feature_list.json`:
@@ -187,94 +134,13 @@ After `/implement` completes:
 - `.spec/init.sh` - Environment setup
 - Project structure
 - Git repository
+- Implemented features
+- Updated progress notes
+- Git commits for each feature
 
 **Existing Project:**
 - Implemented features
 - Updated progress notes
 - Git commits for each feature
 
-## Session Management
-
-**Auto-continue mode** (default):
-- After each feature, wait 3 seconds
-- Automatically start next session
-- Continue until all features complete or session limit reached
-
-**Single session mode** (`sessions=1`):
-- Implement one feature
-- Exit after commit
-- User must re-run `/implement` to continue
-
-## Quality Assurance
-
-Before marking a feature as passing, verify:
-
-- [ ] All test steps completed successfully
-- [ ] Screenshots captured for each step
-- [ ] Final state matches expected outcome
-- [ ] Zero console errors
-- [ ] Visual appearance matches requirements
-- [ ] Edge cases tested (if applicable)
-- [ ] No regressions in existing features
-
-## Example Output
-
-**New project:**
-```
-✓ Project initialized
-
-Created:
-- .spec/feature_list.json with 30 test cases
-- .spec/init.sh environment setup script
-- Project structure for React + Node.js
-- Git repository initialized
-
-Starting implementation...
-[Invokes coding-agent]
-```
-
-**Existing project:**
-```
-=== Current Progress ===
-
-Total Features: 30
-✓ Completed: 15 (50%)
-○ Remaining: 15 (50%)
-
-Invoking coding-agent to implement next feature...
-```
-
-## Next Steps
-
-After `/implement` completes:
-
-- **If features remain**: Run `/implement` again to continue
-- **If all features complete**: Project is ready for deployment!
-
-## Troubleshooting
-
-### Project Not Initialized
-
-```
-Error: .spec/app_spec.txt not found
-```
-
-**Solution:** Run `/explore` first to generate specification, or provide spec when implementing
-
-### No Features Passing
-
-Normal for new projects. The coding-agent will implement features systematically.
-
-### All Features Passing
-
-```
-Progress: 30/30 (100%) ✓
-🎉 Project complete! All features verified.
-```
-
-### Browser Automation Fails
-
-- Check server is running (`./.spec/init.sh`)
-- Verify correct URL/port
-- Check for console errors
-- Ensure Playwright is installed
+**IMPORTANT:** ONLY exit when ALL features have `"passes": true`. Otherwise, continue invoking coding-agent until complete.

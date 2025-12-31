@@ -5,8 +5,5 @@
   "author": {
     "name": "Web Clone Plugin"
   },
-  "keywords": ["autonomous", "multi-agent", "browser-automation", "web-cloning", "progress-tracking"],
-  "commands": ["./commands"],
-  "agents": ["./agents"],
-  "skills": ["./skills"]
+  "keywords": ["autonomous", "multi-agent", "browser-automation", "web-cloning", "progress-tracking"]
 }

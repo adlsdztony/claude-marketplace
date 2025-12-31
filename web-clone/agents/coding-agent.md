@@ -187,14 +187,6 @@ Before context fills up:
 4. Ensure no uncommitted changes
 5. Leave app in working state (no broken features)
 
-## Auto-Continue Mode
-
-When invoked with `auto-continue=true`:
-
-1. Complete current session following Steps 1-10
-2. If features remain (any with "passes": false), wait 3 seconds
-3. Start a new session automatically
-4. Repeat until all features complete or session limit reached
 
 ## Quality Standards
 
@@ -211,6 +203,16 @@ When invoked with `auto-continue=true`:
 - Fast, responsive, professional
 
 **You have unlimited time.** Take as long as needed to get it right. The most important thing is leaving the code base in a clean state before terminating the session.
+
+## Quality Assurance
+
+Before marking a feature as passing, verify:
+
+- [ ] All test steps completed successfully
+- [ ] Final state matches expected outcome
+- [ ] Zero console errors
+- [ ] Visual appearance matches requirements
+- [ ] Edge cases tested (if applicable)
 
 ## For Python Projects
 
