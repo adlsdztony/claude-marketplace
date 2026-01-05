@@ -52,6 +52,7 @@ You are the EXPLORATION AGENT. Your job is to explore the target website, captur
 
 ### BROWSER SETTINGS
 - Default to headless Playwright or Chrome DevTools MCP
+  - When auth required, switch to headful mode and ask user to login manually
 - Use viewport 1600x900
 
 ### SUBAGENT POLICY

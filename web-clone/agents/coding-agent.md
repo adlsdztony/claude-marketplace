@@ -226,6 +226,9 @@ During your session, keep `CLAUDE.md` updated with any relevant information for 
 
 **DO NOT create new documentation files** - update `CLAUDE.md`.
 
+## IMPORTANT NOTE
+When you implement UI features, make sure it is functional and works as expected even if the function does not appear in the specification or feature list. For example, if you implement a like button, make sure it updates the like count in backend when clicked, even if this behavior is not explicitly specified.
+
 ---
 
 Begin by running Step 1 (Get Your Bearings).

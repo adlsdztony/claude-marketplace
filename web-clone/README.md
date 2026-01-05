@@ -8,13 +8,13 @@ Web Clone is a streamlined plugin that transforms Claude Code into an autonomous
 
 ## Key Features
 
-- **3-Command Workflow** - `/explore`, `/implement`, and `/optimize`
+- **3-Command Workflow** - `/explore`, `/implement`, `/audit`
 - **Web Exploration** - Crawl websites to automatically generate specifications
 - **Smart Routing** - Automatically detects project state and routes to appropriate agent
 - **Browser Verification** - All features tested through actual UI interaction
 - **Auto-Continue** - Continuously implements features until project complete
-- **Visual Optimization** - Compare target vs implemented pages and refine until matched
-- **Multi-Agent Coordination** - Specialized agents for exploration, implementation, and optimization
+- **Audit Mode** - Find non-functional elements and automatically fix them
+- **Multi-Agent Coordination** - Specialized agents for exploration, implementation, and audit
 
 ## Quick Start
 
@@ -24,11 +24,11 @@ Web Clone is a streamlined plugin that transforms Claude Code into an autonomous
 # Step 1: Explore a website to generate specification
 /explore url="https://claude.ai" depth=2
 
-# Step 2: Implement all features automatically
+# Step 2: Implement all features automatically (includes auto-audit)
 /implement
 
-# Step 3: Optimize to match the target website
-/optimize target_url="https://claude.ai" local_url="http://localhost:3000" routes="/"
+# Step 3 (Optional): Manually audit for non-functional elements
+/audit
 ```
 
 That's it! The plugin handles everything else.
@@ -38,7 +38,6 @@ That's it! The plugin handles everything else.
 - Subagents add discovered features to `feature_list.json` in real-time
 - The `/explore` command organizes and prioritizes the test cases at the end
 - `/implement` detects if `init.sh` exists to determine if project needs initialization
-- `/optimize` compares target and local UI, applies refinements, and records diffs
 
 ## Commands
 
@@ -96,35 +95,35 @@ Implement features from the specification with auto-continue.
 - Git commits for each feature
 - Production-ready application
 
-### `/optimize`
+### `/audit`
 
-Optimize the implemented site to match the target website.
+Audit the implemented website to identify non-functional elements.
 
 **What it does:**
-- Seeds and updates `.spec/optimize_list.json`
-- Delegates to optimization-subagent per route/flow
-- Captures target/local screenshots and snapshots
-- Applies visual and behavioral refinements until matched
+- Crawls your local implementation
+- Tests ALL interactive elements (buttons, links, forms)
+- Identifies non-functional or broken elements
+- Generates comprehensive audit report
+- Adds missing test cases to `feature_list.json`
 
 **Arguments:**
-- `target_url` (required): Base URL of the target site
-- `local_url` (optional): Base URL of the implemented site, default `http://localhost:3000`
-- `routes` (optional): Comma-separated routes to seed optimization
-- `sessions` (optional): Max optimization passes, default 0 (unlimited)
+- `url` (optional): Local URL to audit, default http://localhost:3000
+- `depth` (optional): Maximum audit depth, default 2
 
 **Examples:**
 ```bash
-/optimize target_url="https://example.com" local_url="http://localhost:3000" routes="/,/pricing"
+/audit
+/audit url="http://localhost:5000" depth=3
 ```
 
 **Output:**
-- `.spec/optimize_list.json` - Optimization goals and status
-- `.spec/optimize/` - Screenshots, snapshots, diff reports
-- `.spec/optimize/reports/final-summary.md` - Final verification summary
+- `.spec/audit_report.md` - Comprehensive audit report
+- `.spec/audit_list.json` - Audit history with all issues
+- Updated `.spec/feature_list.json` - New test cases for broken features
 
 ## Agents
 
-The plugin includes 6 autonomous agents:
+The plugin includes 7 autonomous agents:
 
 ### Exploration Subagent
 
@@ -189,30 +188,21 @@ The plugin includes 6 autonomous agents:
 - End-to-end testing
 - Production-ready
 
-### Optimization Initializer Agent
+### Audit Subagent
 
-**Triggered by:** `/optimize` command via Task tool
+**Triggered by:** `/audit` command via Task tool
 
-**Role:** Build or refresh the optimization list from app spec, feature list, and explore list
-
-**Tasks:**
-- Read `.spec/app_spec.txt`, `.spec/feature_list.json`, `.spec/explore_list.json`
-- Derive key routes and flows
-- Create or update `.spec/optimize_list.json`
-- Preserve existing statuses and artifacts on re-runs
-
-### Optimization Subagent
-
-**Triggered by:** `/optimize` command via Task tool
-
-**Role:** Compare target and local pages, eliminate visual and behavioral differences
+**Role:** Audit individual pages for non-functional elements
 
 **Tasks:**
-- Open target and local pages with the same viewport
-- Capture baseline + action screenshots
-- Identify differences (layout, typography, color, interactions)
-- Implement fixes and re-verify
-- Update `.spec/optimize_list.json` and log artifacts
+- Visit assigned URL with Playwright or Chrome DevTools MCP
+- Identify all interactive elements (buttons, links, forms)
+- Test each element for functionality
+- Record issues (no_response, error, broken_link, etc.)
+- Capture screenshots of issues
+- Extract links for further auditing
+
+**Key feature:** Each subagent tests ALL interactive elements on a page and reports issues found.
 
 ## Skills
 
@@ -270,15 +260,6 @@ The plugin includes 6 autonomous agents:
 # ...
 # ✓ Feature 50/50 implemented
 # 🎉 Project complete!
-
-# 3. Optimize to match the target site
-/optimize target_url="https://todoapp.example.com" local_url="http://localhost:3000" routes="/,/login,/dashboard"
-
-# Output:
-# ✓ Target vs local compared with screenshots
-# ✓ Differences logged in .spec/optimize_list.json
-# ✓ UI refined to match target
-# 🎉 Visual parity achieved!
 ```
 
 ## Project Structure
@@ -311,19 +292,6 @@ After implementation:
 ├── init.sh                   # Environment setup
 ├── claude-progress.txt       # Session notes
 └── app_spec.txt              # Original specification
-```
-
-After optimization:
-```
-.spec/
-├── optimize_list.json         # Optimization goals and status
-└── optimize/                  # Optimization artifacts
-    ├── screenshots/
-    │   ├── target/
-    │   └── local/
-    ├── snapshots/
-    ├── reports/
-    └── logs/
 ```
 
 ## Feature List Format
@@ -384,7 +352,6 @@ The coding-agent maintains:
 3. **Trust the process** - One feature per session, quality over speed
 4. **Check progress** - Use the progress script to see status
 5. **Review commits** - Each feature gets a descriptive commit
-6. **Optimize last** - Run `/optimize` only after all features pass
 
 ## Troubleshooting
 
@@ -454,25 +421,36 @@ The coding-agent maintains:
    - Displays final summary
    - Exits
 
-### How `/optimize` Works
-
-1. Verifies exploration + implementation are complete
-2. Invokes optimization-initializer-agent to build `.spec/optimize_list.json`
-3. For each pending route:
-   - Spawns optimization-subagent via Task tool
-   - Subagent captures target/local screenshots and actions
-   - Subagent applies fixes and updates optimize_list.json
-4. Loops until all items are marked "done"
-5. Writes final verification summary under `.spec/optimize/reports/`
-
 ## Technical Details
 
 ### Multi-Agent System
 
 - **Exploration:** Main command delegates to subagents via Task tool
 - **Implementation:** Auto-continue loop with 3-second delay
-- **Optimization:** Initializer builds optimize list, subagents compare and refine pages route-by-route
 - **Context management:** Clean session starts
+- **Task completion enforcement:** Stop hook ensures all tasks complete before main command sessions end
+
+### Automatic Task Completion
+
+The plugin includes a Stop hook that prevents command sessions from ending prematurely:
+
+**How it works:**
+1. When the main agent considers stopping, the hook detects which command is running:
+   - Checks transcript for command markers (EXPLORATION COMMAND, IMPLEMENTATION COMMAND, etc.)
+   - Only activates for web-clone commands (`/explore`, `/implement`)
+2. Checks the relevant tracking file for the active command:
+   - `/explore` → checks `.spec/explore_list.json` for incomplete pages
+   - `/implement` → checks `.spec/feature_list.json` for features with `"passes": false`
+3. If tasks remain incomplete, the hook blocks the stop with clear guidance
+4. If all tasks are complete or it's not a web-clone command, the hook approves the stop
+
+**Benefits:**
+- Only applies to web-clone commands, doesn't interfere with other Claude Code operations
+- Command-specific checking: each command only checks its own tracking file
+- Prevents incomplete exploration, implementation, or optimization
+- Automatically continues work until all tasks complete
+- No manual intervention needed
+- Ensures the auto-continue loop completes successfully
 
 ### Artifacts
 
@@ -525,7 +503,6 @@ Implements 10 features (or fewer if project completes sooner).
 ```bash
 /explore url="https://simple.example.com" depth=1
 /implement
-/optimize target_url="https://simple.example.com" local_url="http://localhost:3000" routes="/"
 ```
 
 ### Clone a Complex Application
@@ -533,7 +510,6 @@ Implements 10 features (or fewer if project completes sooner).
 ```bash
 /explore url="https://complex.example.com" depth=3
 /implement
-/optimize target_url="https://complex.example.com" local_url="http://localhost:3000" routes="/,/login,/dashboard"
 ```
 
 ### Clone Authenticated Application
@@ -541,7 +517,6 @@ Implements 10 features (or fewer if project completes sooner).
 ```bash
 /explore url="https://app.example.com" depth=2 auth=".spec/info/auth/storage_state.json"
 /implement
-/optimize target_url="https://app.example.com" local_url="http://localhost:3000" routes="/,/login"
 ```
 
 ## Contributing

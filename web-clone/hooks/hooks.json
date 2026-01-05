@@ -1,0 +1,17 @@
+{
+  "description": "Hooks for web-clone plugin to ensure tasks are completed before main command session ends",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/check-task-completion.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

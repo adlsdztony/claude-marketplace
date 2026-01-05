@@ -72,14 +72,6 @@ After each coding-agent session:
 
 **Role:** Set up project foundation
 
-**Process:**
-1. Read project specification (`.spec/app_spec.txt` or spec text)
-2. Create `.spec/feature_list.json` with detailed test cases (minimum 30 features)
-3. Create `.spec/init.sh` for environment setup
-4. Initialize git repository
-5. Create basic project structure
-6. Create `CLAUDE.md` with project overview
-
 **Output:**
 - `.spec/feature_list.json` - Test cases (source of truth)
 - `.spec/init.sh` - Environment setup script
@@ -91,22 +83,6 @@ After each coding-agent session:
 **Triggered when:** `.spec/feature_list.json` exists
 
 **Role:** Implement features one at a time
-
-**Process per session:**
-1. Get bearings (read progress, feature list, spec)
-2. Start servers with `.spec/init.sh`
-3. Run verification tests on existing features
-4. Implement ONE new feature (highest priority)
-5. Verify with browser automation (screenshots + console check)
-6. Update feature_list.json (mark "passes": true)
-7. Update `.spec/claude-progress.txt`
-8. Commit changes
-
-**Quality Standards:**
-- Zero console errors
-- Polished UI matching spec
-- End-to-end testing through UI
-- Professional, production-ready
 
 ## Progress Tracking
 
@@ -149,11 +125,4 @@ After `/implement` completes:
 - Updated progress notes
 - Git commits for each feature
 
-**IMPORTANT:** ONLY exit when ALL features have `"passes": true`. Otherwise, continue invoking coding-agent until complete.
-
-## Next Steps
-
-After all features pass, run:
-```
-/optimize
-```
+**IMPORTANT:** ONLY exit when ALL features have `"passes": true` (including audit-discovered issues). Otherwise, continue invoking coding-agent until complete.
