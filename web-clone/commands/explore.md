@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Explore a target website to capture artifacts and generate application specification. This command should NOT be triggered directly by agents.
+description: Explore a single target website to capture artifacts and generate application specification. This command should NOT be triggered directly by agents.
 arguments:
   url:
     description: "Target URL to explore (e.g., https://claude.ai)"
@@ -58,6 +58,7 @@ You are the EXPLORATION AGENT. Your job is to explore the target website, captur
 ### SUBAGENT POLICY
 - Do NOT try to explore everything in a single context window. Use the Task tool to spawn subagents (exploration-subagent) that explore specific pages or clusters. You only coordinate the process, maintain the explore list, and consolidate artifacts. 
 - DO NOT use background agents, use SINGLE **foreground** agent. 
+- DO NOT use parallel subagents; explore one page at a time.
 - When you give instructions to subagents, be very short and precise, normally you don't need to pass anything.
 
 ---
